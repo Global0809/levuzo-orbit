@@ -1,0 +1,75 @@
+/* One quiet motion language: a soft arrival, a little depth, a precise response. */
+:root{--motion-ease:cubic-bezier(.22,1,.36,1);--ocean:#19457b}
+.header{transition:background .4s,box-shadow .4s,backdrop-filter .4s}
+.header.is-scrolled{background:rgba(255,255,255,.88);backdrop-filter:blur(16px);box-shadow:0 4px 24px #14263d08}
+.reading-progress{position:absolute;bottom:-1px;left:0;width:100%;height:2px;background:linear-gradient(90deg,#153866,#498ec0);transform:scaleX(0);transform-origin:left;pointer-events:none}
+.product-stage{perspective:1100px;isolation:isolate}
+.product-stage:before{content:"";position:absolute;inset:4% -3% 9%;z-index:-1;opacity:0;background:radial-gradient(ellipse at var(--light-x,50%) var(--light-y,50%),#9fc0e53b,transparent 64%);transition:opacity .7s;pointer-events:none}
+.product-stage.has-depth:before{opacity:1}
+.main-image-button{transform:rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));transition:transform .65s var(--motion-ease);transform-style:preserve-3d}
+.main-image-button{mix-blend-mode:multiply}
+.zoom-symbol{border:1px solid #aaa6;border-radius:50%;width:32px;height:32px;line-height:29px;background:#ffffff70;transition:opacity .3s,transform .4s var(--motion-ease)}
+.main-image-button:hover .zoom-symbol{transform:rotate(90deg)}
+.thumb{position:relative;border-bottom-color:transparent!important;transition:opacity .3s,background .3s}
+.thumb:after{content:"";position:absolute;bottom:-3px;left:0;width:100%;height:2px;background:var(--ocean);transform:scaleX(0);transform-origin:center;transition:transform .45s var(--motion-ease)}
+.thumb[aria-current=true]:after{transform:scaleX(1)}
+.gallery-pager button,.zoom-controls button{transition:color .25s,transform .3s var(--motion-ease)}
+.gallery-pager button:active,.zoom-controls button:active{transform:scale(.85)}
+.variant button{transition:background .3s,color .3s,border-color .3s,box-shadow .3s}
+.variant button[aria-pressed=true]{box-shadow:0 3px 10px #152a4317}
+.icon-button svg{transition:transform .35s var(--motion-ease),fill .3s,stroke .3s}
+.primary,.outline-link{position:relative;overflow:hidden;isolation:isolate;transition:background .35s,color .35s,border-color .35s,box-shadow .4s,transform .4s var(--motion-ease)}
+.primary:after,.outline-link:after{content:"";position:absolute;inset:-60% -30%;background:linear-gradient(115deg,transparent 35%,#ffffff28 50%,transparent 65%);transform:translateX(-110%);pointer-events:none;transition:transform .8s var(--motion-ease)}
+.primary:hover:after,.outline-link:hover:after{transform:translateX(110%)}
+.primary:active,.outline-link:active{transform:scale(.985)}
+.description-preview span:last-child,.info-links button span,.text-link span,.spec-card>span{display:inline-block;transition:transform .45s var(--motion-ease),color .3s}
+.info-links button{transition:border-color .3s,background .3s}
+.info-links button:hover{border-color:#bbb;background:#fff5}
+.info-links button:hover span{transform:translateX(3px)}
+.text-link{position:relative;transition:color .3s,border-color .3s}
+.text-link:after{content:"";position:absolute;bottom:-1px;left:0;width:100%;height:1px;background:var(--ocean);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--motion-ease)}
+.text-link:hover:after{transform:scaleX(1)}
+.text-link:hover{color:var(--ocean)}
+.text-link:hover span,.description-preview:hover span:last-child,.spec-card:hover>span{transform:rotate(90deg);color:var(--ocean)}
+.spec-card img{transition:transform .65s var(--motion-ease)}
+.spec-card{transition:color .3s}
+.spec-card:hover{color:var(--ocean)}
+.cinematic-image{overflow:hidden}
+.parallax-scene{position:relative;overflow:hidden}
+.parallax-scene>img{transform:translate3d(0,var(--parallax-y,0px),0) scale(1.09);transform-origin:center}
+.image-crossfade{position:absolute!important;pointer-events:none!important;z-index:1;margin:0!important;max-width:none!important;min-height:0!important}
+.day-night>img{aspect-ratio:2/1}
+.day-night-controls{z-index:2;isolation:isolate;backdrop-filter:blur(12px);gap:0}
+.day-night-controls button{width:108px;position:relative;z-index:1;transition:color .35s}
+.day-night-controls.has-slider:before{content:"";position:absolute;top:4px;left:4px;width:108px;height:calc(100% - 8px);background:#fff;border-radius:25px;transform:translateX(0);transition:transform .6s var(--motion-ease);box-shadow:0 2px 12px #0002}
+.day-night-controls.has-slider:has([data-light=night][aria-pressed=true]):before{transform:translateX(108px)}
+.day-night-controls.has-slider button[aria-pressed=true]{background:transparent}
+.lume-note{z-index:2}
+.drawer nav a{transition:color .3s,padding-left .4s var(--motion-ease)}
+.drawer nav a:hover{color:var(--ocean);padding-left:10px}
+.dialog-head>button,.zoom-close{transition:transform .4s var(--motion-ease)}
+.dialog-head>button:hover,.zoom-close:hover{transform:rotate(90deg)}
+.search-result{transition:padding-left .4s var(--motion-ease),background .3s}
+.search-result:hover{padding-left:12px;background:#f7f8fa}
+dialog[open]::backdrop{animation:backdrop-in .4s both}
+dialog.is-closing::backdrop{animation:backdrop-out .24s both}
+@keyframes backdrop-in{from{opacity:0}to{opacity:1}}
+@keyframes backdrop-out{from{opacity:1}to{opacity:0}}
+.footer-grid>div>a,.footer-grid>div>button{transition:color .3s,transform .4s var(--motion-ease)}
+.footer-grid>div>a:hover,.footer-grid>div>button:hover{transform:translateX(3px)}
+@media(hover:hover) and (pointer:fine){
+ .icon-button:hover svg{transform:translateY(-2px)}
+ .spec-card:hover img{transform:translateY(-6px) scale(1.04)}
+ .primary:hover{box-shadow:0 6px 22px #15386624}
+ .editorial-gallery img,.detail-strip img,.split-image img{transition:scale 1s var(--motion-ease)}
+ .editorial-gallery figure:hover img,.detail-strip article:hover img{scale:1.025}
+ .split-image:hover img{scale:1.035}
+}
+@media(max-width:749px){.product-stage:before{display:none}.main-image-button{transform:none}.parallax-scene>img{transform:none}.day-night-controls{bottom:60px}}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto!important}
+ *,*:before,*:after{animation:none!important;transition:none!important}
+ .main-image-button,.parallax-scene>img{transform:none!important}
+ .product-stage:before{display:none}
+ .editorial-gallery img,.detail-strip img,.split-image img{scale:1!important}
+}
