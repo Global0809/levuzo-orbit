@@ -1,0 +1,153 @@
+/* The Orbit collection is presented entirely through live 3D studies. */
+.orbit-loading{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:15px;padding:28px;color:#526e86;text-align:center;font-size:12px;line-height:1.7;pointer-events:none;z-index:1}
+.orbit-loading>span{display:block;font-size:10px;letter-spacing:.22em;color:#34658e}
+[data-orbit-scene][data-model=ready] .orbit-loading{display:none}
+[data-orbit-scene][data-model=fallback] .orbit-loading{display:flex}
+.orbit-nocturne .orbit-loading{color:#adc5e0}.orbit-nocturne .orbit-loading>span{color:#79aee2}
+.orbit-scene .orbit-status{letter-spacing:0}
+.orbit-controls button,.orbit-scene-controls button{min-width:44px;min-height:44px}
+
+/* A full-size live product view takes the place of the photo gallery. */
+.product{grid-template-columns:minmax(0,1.4fr) minmax(320px,.82fr);gap:clamp(35px,5vw,90px);padding:58px max(38px,calc((100% - 1550px)/2));min-height:760px;align-items:center}
+.product-info{max-width:470px;grid-column:2;grid-row:1}
+.product-stage.orbit-product{grid-column:1;grid-row:1;min-height:650px;height:100%;max-height:820px;background:#edf1f3;isolation:isolate;border:1px solid #dce3e8}
+.orbit-product:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 52% 38%,#fff 0%,#f7f9fb 33%,#e9eff3 75%)}
+.orbit-product .orbit-stage{inset:52px 0 165px}
+.orbit-product .orbit-scene-heading{top:26px;left:28px;right:28px}
+.orbit-product .orbit-scene-footer{bottom:21px;left:20px;right:20px}
+.orbit-product .orbit-scene-controls{gap:24px}
+.orbit-product-guides{position:absolute;inset:0;pointer-events:none}
+.orbit-product-guides i{position:absolute;left:12%;right:12%;top:18%;border-top:1px solid #95adc333}
+.orbit-product-guides i:before,.orbit-product-guides i:after{content:"";position:absolute;top:-4px;width:1px;height:8px;background:#95adc370}
+.orbit-product-guides i:before{left:0}.orbit-product-guides i:after{right:0}
+.orbit-product-guides i:last-child{top:auto;bottom:29%;left:25%;right:25%;opacity:.7}
+.orbit-product-views{position:absolute;bottom:108px;left:0;right:0;z-index:4;display:flex;align-items:center;justify-content:center;gap:5px;padding:0 16px}
+.orbit-product-views button{min-height:44px;padding:10px 16px;border:1px solid transparent;color:#627a91;font-size:12px;line-height:1.2;transition:background .25s,color .25s,border-color .25s}
+.orbit-product-views button:hover{color:#173b5d;border-color:#b8c9d6}
+.orbit-product-views button[aria-pressed=true]{background:#173653;border-color:#173653;color:#fff}
+
+/* Numbered details keep the original editorial rhythm without thumbnails. */
+.orbit-specifications{max-width:1550px;padding:67px max(38px,4vw) 58px;gap:clamp(24px,4vw,64px)}
+.orbit-specifications .spec-card{border-top:1px solid #cfd9e1;padding:24px 18px 15px 0;transition:border-color .2s}
+.orbit-specifications .spec-card:hover{border-color:#306b9e}
+.orbit-specifications .spec-card .spec-index{position:static;display:block;font-size:12px;color:#45739b;letter-spacing:.1em;margin:0 0 32px}
+.orbit-specifications .spec-card h2{font-size:14px;font-weight:600;letter-spacing:.09em}
+.orbit-specifications .spec-card p{font-size:14px;color:#708191}
+.orbit-specifications .spec-card .spec-open{right:0;bottom:10px;font-size:22px;color:#68839a}
+.orbit-statement{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(40px,7vw,120px);padding:95px max(60px,8vw) 115px;max-width:1600px;margin:auto;align-items:center}
+.orbit-statement .eyebrow{font-size:10px;color:#6c8092;margin-bottom:24px}
+.orbit-statement h2{font-size:clamp(33px,3.3vw,50px);font-weight:400;line-height:1.13;letter-spacing:-.025em;color:#18324a}
+.orbit-statement-copy{max-width:440px}
+.orbit-statement-copy p{font-size:16px;line-height:1.9;color:#6c7883}
+.orbit-statement-copy p+p{margin-top:18px}
+.orbit-statement-copy .text-link{min-height:44px;margin-top:20px;color:#476c8c;border-color:#bbcad6;font-size:13px}
+#craft{padding-bottom:0}
+#craft>.story-copy{padding:30px 32px 65px;max-width:770px}
+#craft>.story-copy h2{font-size:32px;letter-spacing:.035em;color:#18324a}
+#craft>.story-copy>p:not(.eyebrow){color:#6c7883}
+
+.orbit-material{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(50px,9vw,140px);max-width:1350px;margin:auto;padding:110px 60px 115px;align-items:start}
+.orbit-material-title .eyebrow{font-size:10px;color:#6c8092;margin-bottom:24px}
+.orbit-material-title h2{font-size:clamp(37px,4.1vw,58px);font-weight:400;line-height:1.06;letter-spacing:-.035em;color:#18324a}
+.orbit-material-title .text-link{font-size:13px;margin-top:29px;color:#476c8c;border-color:#bbcad6}
+.orbit-material-details article{border-top:1px solid #d5dfe6;padding:22px 0 28px}
+.orbit-material-details article:last-child{padding-bottom:0}
+.orbit-material-details article>span{font-size:9px;letter-spacing:.16em;color:#67849c}
+.orbit-material-details h3{font-size:22px;line-height:1.35;font-weight:400;color:#25425c;margin-top:12px}
+.orbit-material-details p{font-size:14px;color:#77838f;line-height:1.8;margin-top:10px;max-width:470px}
+.orbit-presentation-heading{padding:0 24px 54px;text-align:center}
+.orbit-presentation-heading .eyebrow{color:#6c8092;font-size:10px;margin-bottom:17px}
+.orbit-presentation-heading h2{font-size:clamp(29px,3vw,43px);font-weight:400;letter-spacing:-.025em;line-height:1.15;color:#18324a}
+.orbit-presentation-heading>p:last-child{font-size:15px;line-height:1.7;color:#728393;margin-top:16px}
+
+/* The final study changes the actual 3D lighting. */
+.orbit-ambience{min-height:680px;background:#e9eff3;color:#19364e;transition:background .75s,color .75s}
+.orbit-ambience:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 65% 46%,#fff 0%,#f4f7f9 25%,#e9eff3 69%);opacity:1;transition:opacity .75s}
+.orbit-ambience[data-lighting=night]{background:#071426;color:#e3edfa}
+.orbit-ambience[data-lighting=night]:before{opacity:0}
+.orbit-ambience .orbit-stage{inset:0 3% 95px 31%}
+.orbit-ambience-copy{position:absolute;top:24%;left:8%;z-index:4;width:28%;max-width:360px;pointer-events:none}
+.orbit-ambience-copy .eyebrow{color:#527594;font-size:10px;margin-bottom:22px;transition:color .75s}
+.orbit-ambience-copy h3{font-weight:400;font-size:clamp(34px,4vw,56px);line-height:1.08;letter-spacing:-.035em}
+.orbit-ambience-copy>p:not(.eyebrow){font-size:15px;line-height:1.75;color:#75889a;margin-top:23px;transition:color .75s}
+.orbit-ambience .day-night-controls{position:static;transform:none;display:inline-flex;pointer-events:auto;margin-top:26px;border:1px solid #aebfcc;background:#dee7ef70;border-radius:0;padding:4px;gap:4px}
+.orbit-ambience .day-night-controls button{min-width:94px;min-height:44px;padding:12px 19px;border-radius:0;color:#627d94;transition:background .3s,color .3s}
+.orbit-ambience .day-night-controls button[aria-pressed=true]{background:#173653;color:#fff}
+.orbit-ambience .day-night-controls span{margin:0;font-size:11px;letter-spacing:.12em}
+.orbit-ambience .orbit-scene-footer{bottom:25px;left:8%;right:8%;display:flex;justify-content:space-between;align-items:center;gap:24px}
+.orbit-ambience .orbit-status{text-align:left;max-width:50%}
+.orbit-ambience .orbit-scene-controls{margin-top:0;gap:25px}
+.orbit-ambience-ring{position:absolute;top:27%;right:10%;width:41%;height:47%;border:1px solid #8ba9c12b;border-radius:50%;transform:rotate(-14deg);pointer-events:none;transition:border-color .75s}
+.orbit-ambience[data-lighting=night] .orbit-ambience-ring{border-color:#6398c23b}
+.orbit-ambience[data-lighting=night] .orbit-ambience-copy .eyebrow{color:#83b5e3}
+.orbit-ambience[data-lighting=night] .orbit-ambience-copy>p:not(.eyebrow){color:#90aac4}
+.orbit-ambience[data-lighting=night] .day-night-controls{border-color:#425f7f;background:#11243b}
+.orbit-ambience[data-lighting=night] .day-night-controls button{color:#9ebbd7}
+.orbit-ambience[data-lighting=night] .day-night-controls button[aria-pressed=true]{background:#dceaf8;color:#15304c}
+.orbit-ambience[data-lighting=night] .orbit-status,.orbit-ambience[data-lighting=night] .orbit-loading{color:#94adc8}
+.orbit-ambience[data-lighting=night] .orbit-loading>span{color:#83b5e3}
+.orbit-ambience[data-lighting=night] .orbit-scene-controls button{color:#bed9f2;border-color:#405f7f}
+.closing{padding-top:105px;padding-bottom:105px}
+.bag-item{grid-template-columns:1fr}
+.checkout-item{display:grid;grid-template-columns:1fr auto}
+.purchase-product{gap:0}
+
+@media(min-width:1600px){.product{padding-top:70px;padding-bottom:70px}.product-stage.orbit-product{min-height:740px}.orbit-ambience{min-height:740px}}
+@media(max-width:1100px){.product{grid-template-columns:minmax(0,1.15fr) minmax(300px,.9fr);gap:30px;padding:40px 30px}.product-stage.orbit-product{min-height:650px}.orbit-product .orbit-scene-heading{left:20px;right:20px}.orbit-product .orbit-scene-controls{gap:16px}.orbit-product .orbit-scene-controls button{font-size:10px}.orbit-statement{padding:65px 45px 80px;gap:45px}.orbit-material{padding:85px 45px;gap:65px}.orbit-ambience{min-height:620px}.orbit-ambience-copy{left:6%;width:29%}.orbit-ambience-copy h3{font-size:39px}.orbit-ambience .orbit-scene-footer{left:6%;right:6%}.orbit-ambience .orbit-scene-controls{gap:18px}}
+@media(max-width:749px){
+ .info-links button,.dialog-head button,.remove-selection{min-width:44px;min-height:44px}
+ .bag-quantity button{width:44px!important;min-height:44px!important}
+ .product{grid-template-columns:1fr;padding:20px 20px 42px;gap:0;min-height:0}
+ .product-stage.orbit-product{grid-column:1;grid-row:1;min-height:500px;height:500px;max-height:none}
+ .product-info{grid-column:1;grid-row:2;max-width:none;margin-top:30px}
+ .orbit-product .orbit-stage{inset:43px 0 148px}
+ .orbit-product .orbit-scene-heading{top:18px;left:18px;right:18px;font-size:8px}
+ .orbit-product .orbit-scene-heading span{display:inline}
+ .orbit-product .orbit-scene-footer{bottom:14px;left:10px;right:10px}
+ .orbit-product .orbit-scene-controls{gap:18px;margin-top:3px}
+ .orbit-product-views{bottom:95px;gap:3px;padding:0 10px}
+ .orbit-product-views button{font-size:11px;padding:10px 13px}
+ .orbit-product-guides i{top:15%;left:10%;right:10%}
+ .orbit-product-guides i:last-child{bottom:32%}
+ .orbit-specifications{padding:45px 24px 15px;gap:25px 24px}
+ .orbit-specifications .spec-card{padding-top:18px;padding-bottom:17px}
+ .orbit-specifications .spec-card .spec-index{margin-bottom:20px;font-size:10px}
+ .orbit-specifications .spec-card h2{font-size:12px}
+ .orbit-specifications .spec-card p{font-size:12px;min-height:36px}
+ .orbit-specifications .spec-card .spec-open{bottom:17px}
+ .orbit-statement{grid-template-columns:1fr;gap:25px;padding:55px 24px 60px}
+ .orbit-statement .eyebrow{font-size:9px;margin-bottom:19px}
+ .orbit-statement h2{font-size:34px;line-height:1.13}
+ .orbit-statement-copy p{font-size:15px;line-height:1.8}
+ #craft>.story-copy{padding:0 24px 38px}
+ #craft>.story-copy h2{font-size:27px}
+ #craft>.story-copy>p:not(.eyebrow){font-size:15px}
+ .orbit-material{grid-template-columns:1fr;gap:37px;padding:62px 24px 60px}
+ .orbit-material-title h2{font-size:43px}
+ .orbit-material-title .eyebrow{font-size:9px;margin-bottom:19px}
+ .orbit-material-title .text-link{margin-top:21px}
+ .orbit-material-details article{padding:20px 0 25px}
+ .orbit-material-details h3{font-size:21px}
+ .orbit-presentation-heading{padding:0 24px 36px}
+ .orbit-presentation-heading h2{font-size:29px}
+ .orbit-presentation-heading>p:last-child{font-size:14px;margin-top:13px}
+ .orbit-ambience{min-height:705px}
+ .orbit-ambience-copy{top:28px;left:7%;right:7%;width:auto;max-width:none}
+ .orbit-ambience-copy .eyebrow{font-size:9px;margin-bottom:15px}
+ .orbit-ambience-copy h3{font-size:35px;line-height:1.05}
+ .orbit-ambience-copy h3 br{display:none}
+ .orbit-ambience-copy>p:not(.eyebrow){font-size:13px;line-height:1.65;margin-top:11px}
+ .orbit-ambience-copy>p:not(.eyebrow) br{display:none}
+ .orbit-ambience-copy>p:not(.eyebrow) br:after{content:" "}
+ .orbit-ambience .day-night-controls{margin-top:17px}
+ .orbit-ambience .day-night-controls button{min-width:85px;min-height:44px;padding:10px 17px}
+ .orbit-ambience .orbit-stage{inset:204px 0 110px}
+ .orbit-ambience .orbit-scene-footer{display:block;left:7%;right:7%;bottom:19px}
+ .orbit-ambience .orbit-status{text-align:center;max-width:none}
+ .orbit-ambience .orbit-scene-controls{justify-content:center;gap:24px;margin-top:6px}
+ .orbit-ambience-ring{top:38%;left:13%;right:13%;width:auto;height:28%}
+ .closing{padding:65px 24px 75px}
+ .closing h2{font-size:30px}
+}
+@media(max-width:359px){.product{padding-left:14px;padding-right:14px}.product-stage.orbit-product{height:485px;min-height:485px}.orbit-product .orbit-scene-heading span{display:none}.orbit-product .orbit-scene-controls{gap:11px}.orbit-product .orbit-scene-controls button{font-size:9px}.orbit-product-views button{font-size:10px;padding:10px 11px}.orbit-statement h2{font-size:30px}.orbit-ambience-copy h3{font-size:30px}.orbit-ambience .orbit-scene-controls{gap:17px}.orbit-specifications .spec-card p{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.orbit-ambience,.orbit-ambience:before,.orbit-ambience-copy .eyebrow,.orbit-ambience-copy>p:not(.eyebrow),.orbit-ambience-ring,.orbit-product-views button,.orbit-specifications .spec-card{transition:none}}

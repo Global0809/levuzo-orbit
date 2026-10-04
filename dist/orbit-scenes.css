@@ -1,0 +1,45 @@
+/* Secondary product studies inherit the storefront's type and blue palette. */
+.orbit-scene{position:relative;isolation:isolate;overflow:hidden;min-width:0;scroll-margin-top:76px}
+.orbit-scene .orbit-stage{position:absolute;inset:54px 0 106px;z-index:2;overflow:hidden}
+.orbit-scene .orbit-stage canvas{width:100%;height:100%;display:block;touch-action:pan-y;opacity:0;transition:opacity .8s;cursor:grab;outline-offset:-5px}
+.orbit-scene .orbit-stage canvas:active{cursor:grabbing}
+.orbit-scene .orbit-stage canvas:focus-visible{outline:2px solid #2b89db}
+.orbit-scene[data-model=ready] canvas{opacity:1}
+.orbit-scene .orbit-stage .orbit-fallback{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;object-fit:contain;mix-blend-mode:multiply;pointer-events:none;transition:opacity .6s}
+.orbit-scene[data-model=ready] .orbit-fallback{opacity:0}
+.orbit-scene-heading{position:absolute;z-index:3;top:25px;left:25px;right:25px;display:flex;justify-content:space-between;gap:14px;pointer-events:none;font-size:9px;line-height:1.5;letter-spacing:.16em;color:#416583}
+.orbit-scene-heading span{color:#7890a5;white-space:nowrap}
+.orbit-scene-footer{position:absolute;bottom:19px;left:25px;right:25px;z-index:4}
+.orbit-scene .orbit-status{font-size:10px;line-height:1.6;letter-spacing:.02em;color:#526e86;text-align:center;min-height:17px}
+.orbit-scene-controls{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:8px}
+.orbit-scene-controls button{color:#305c80;border-bottom:1px solid #adc0cf;min-height:44px;padding:0 1px;font-size:10px;letter-spacing:.015em;white-space:nowrap;transition:color .2s,border-color .2s}
+.orbit-scene-controls button:hover{color:#0b4879;border-color:#3e81b4}
+.orbit-scene-controls button:focus-visible{outline:2px solid #2b89db;outline-offset:5px}
+.orbit-scene-controls button:disabled{opacity:.4;cursor:default}
+.orbit-nocturne{width:100%;height:700px;background:#050c17;color:#e6f0fc}
+.orbit-nocturne:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 65% 54%,#153964 0%,#0b1d36 24%,#050c17 65%)}
+.orbit-nocturne .orbit-stage{inset:22px 0 85px 25%}
+.orbit-nocturne .orbit-stage .orbit-fallback{inset:6% 3%;width:94%;height:88%;object-fit:contain;mix-blend-mode:screen;opacity:.65;mask-image:radial-gradient(ellipse,#000 25%,transparent 72%)}
+.orbit-nocturne[data-model=ready] .orbit-fallback{opacity:0}
+.orbit-nocturne-copy{position:absolute;left:8%;top:21%;z-index:3;pointer-events:none;max-width:30%}
+.orbit-nocturne-copy .eyebrow{color:#79aee2;font-size:10px;letter-spacing:.19em;margin:0 0 24px}
+.orbit-nocturne-copy h3{font-size:clamp(45px,5vw,78px);line-height:1.02;letter-spacing:-.04em;font-weight:400}
+.orbit-nocturne-copy h3 em{font-style:normal;color:#7eaff0}
+.orbit-nocturne-copy>p:last-child{font-size:14px;line-height:1.8;color:#96abc6;margin-top:24px}
+.orbit-nocturne .orbit-scene-footer{left:8%;right:8%;bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.orbit-nocturne .orbit-status{color:#91a9c5;text-align:left;max-width:50%}
+.orbit-nocturne .orbit-scene-controls{margin-top:0;gap:25px}
+.orbit-nocturne .orbit-scene-controls button{color:#bfd9f6;border-color:#345477}
+.orbit-nocturne .orbit-scene-controls button:hover{color:#fff;border-color:#83bcf7}
+.orbit-nocturne-trails{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.orbit-nocturne-trails i{position:absolute;left:38%;top:53%;width:49%;height:1px;background:linear-gradient(90deg,transparent,#78b6ff6b 42%,#bcdfffbd 50%,#4d99fa25 66%,transparent);transform:rotate(-17deg);opacity:.3;animation:orbit-nocturne-trace 9s ease-in-out infinite}
+.orbit-nocturne-trails i:nth-child(2){left:27%;top:60%;width:66%;animation-delay:-3s;opacity:.15}
+.orbit-nocturne-trails i:nth-child(3){left:38%;top:65%;width:54%;animation-delay:-6s;opacity:.15}
+.orbit-nocturne-horizon{position:absolute;left:0;right:0;bottom:105px;height:1px;background:linear-gradient(90deg,transparent,#8abaff1f 35%,#8abaff38 65%,transparent);pointer-events:none}
+@keyframes orbit-nocturne-trace{0%,100%{transform:translate(-11%,0) rotate(-17deg);opacity:.08}45%{transform:translate(9%,-25px) rotate(-17deg);opacity:.65}70%{opacity:.15}}
+.orbit-scene[data-paused=true] .orbit-nocturne-trails i,.orbit-scene[data-active=false] .orbit-nocturne-trails i{animation-play-state:paused}
+@media(min-width:1600px){.orbit-nocturne-copy{left:12%}.orbit-nocturne .orbit-stage{left:30%;right:5%}.orbit-nocturne .orbit-scene-footer{left:12%;right:12%}}
+@media(max-width:1000px){.orbit-scene-heading{left:18px;right:18px;gap:8px;font-size:8px}.orbit-scene-heading span{display:none}.orbit-nocturne{height:630px}.orbit-nocturne-copy{left:6%}.orbit-nocturne-copy h3{font-size:52px}.orbit-nocturne-copy>p:last-child{font-size:12px}.orbit-nocturne .orbit-scene-footer{left:6%;right:6%}}
+@media(max-width:749px){.orbit-scene{scroll-margin-top:60px}.orbit-scene .orbit-stage{inset:44px 0 106px}.orbit-scene-heading{top:20px;left:20px;right:20px;font-size:9px}.orbit-scene-heading span{display:inline}.orbit-scene .orbit-status{font-size:10px}.orbit-nocturne{height:600px}.orbit-nocturne-copy{top:27px;left:7%;right:7%;max-width:none}.orbit-nocturne-copy .eyebrow{font-size:9px;margin-bottom:14px}.orbit-nocturne-copy h3{font-size:40px;line-height:1.05}.orbit-nocturne-copy h3 br{display:none}.orbit-nocturne-copy h3 em:before{content:" "}.orbit-nocturne-copy>p:last-child{font-size:12px;line-height:1.6;margin-top:12px}.orbit-nocturne-copy>p:last-child br{display:none}.orbit-nocturne .orbit-stage{inset:140px -4% 106px}.orbit-nocturne .orbit-scene-footer{display:block;left:7%;right:7%;bottom:17px}.orbit-nocturne .orbit-status{text-align:center;max-width:none}.orbit-nocturne .orbit-scene-controls{gap:25px;margin-top:7px}.orbit-nocturne .orbit-scene-controls button{font-size:10px}.orbit-nocturne-trails i{left:5%;width:94%;top:58%}.orbit-nocturne-trails i:nth-child(2){left:0;top:65%;width:100%}.orbit-nocturne-trails i:nth-child(3){left:10%;top:71%;width:90%}.orbit-nocturne-horizon{bottom:105px}}
+@media(max-width:360px){.orbit-scene-heading span{display:none}.orbit-nocturne .orbit-scene-controls{gap:18px}.orbit-nocturne-copy h3{font-size:36px}}
+@media(prefers-reduced-motion:reduce){.orbit-scene .orbit-nocturne-trails i{animation:none}.orbit-scene .orbit-stage canvas,.orbit-scene .orbit-fallback,.orbit-scene-controls button{transition:none}}

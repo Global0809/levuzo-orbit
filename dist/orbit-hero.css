@@ -1,0 +1,42 @@
+.orbit-hero{position:relative;isolation:isolate;min-height:650px;height:calc(100svh - 103px);max-height:1050px;overflow:hidden;background:#eef1f3;color:#172b40;border-bottom:1px solid #d4dee5}
+.orbit-hero:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 68% 40%,#fff 0%,#f6f8f9 32%,#e9eef2 72%)}
+.orbit-topline{position:absolute;top:30px;left:4.4%;right:4.4%;display:flex;justify-content:space-between;font-size:10px;letter-spacing:.2em;color:#627b91;z-index:3;pointer-events:none}
+.orbit-topline span:last-child{color:#2868a5}
+.orbit-copy{position:absolute;left:6%;top:50%;transform:translateY(-50%);width:31%;z-index:3;pointer-events:none}
+.orbit-copy .eyebrow{font-size:12px;letter-spacing:.24em;margin-bottom:26px;color:#58738a}
+.orbit-copy h1{font-size:clamp(45px,5.3vw,84px);line-height:1.02;letter-spacing:-.055em;font-weight:400;margin:0 0 25px}
+.orbit-copy h1 em{font-style:normal;color:#387bba}
+.orbit-copy>p:not(.eyebrow){max-width:300px;font-size:16px;line-height:1.7;color:#627181}
+.orbit-buy{display:inline-flex;align-items:center;justify-content:center;background:#142d4c;color:#fff;font-size:14px;font-weight:500;min-height:48px;padding:0 25px;margin-top:30px;pointer-events:auto;transition:background .25s,transform .25s}
+.orbit-buy:hover{background:#235582;transform:translateY(-2px)}
+.orbit-price{display:block;font-size:12px;color:#6c7d8c;margin-top:12px}.orbit-price s{margin-right:8px}.orbit-price strong{font-weight:400;color:#245a8b}
+.orbit-word{position:absolute;bottom:-.17em;right:3%;z-index:-1;color:#bdccd83b;font-size:clamp(130px,25vw,390px);font-weight:500;line-height:1;letter-spacing:-.06em;pointer-events:none}
+.orbit-stage{position:absolute;left:34%;right:0;top:0;bottom:0;overflow:hidden}
+.orbit-stage canvas{display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab;outline-offset:-5px;opacity:0;transition:opacity 1.2s}
+.orbit-stage canvas:active{cursor:grabbing}.orbit-hero[data-model=ready] canvas{opacity:1}
+.orbit-fallback{position:absolute;inset:7% 10%;height:86%;width:80%;object-fit:contain;mix-blend-mode:multiply;transition:opacity .7s;pointer-events:none}
+.orbit-hero[data-model=ready] .orbit-fallback{opacity:0}
+.orbit-scan{position:absolute;left:9%;right:10%;top:17%;height:1px;background:linear-gradient(90deg,transparent,#85b8e263,transparent);pointer-events:none;opacity:.45;animation:orbit-scan 9s ease-in-out infinite}
+@keyframes orbit-scan{0%,100%{transform:translateY(0);opacity:0}20%,80%{opacity:.4}90%{transform:translateY(420px);opacity:0}}
+.orbit-cross{position:absolute;pointer-events:none;color:#88a2b9;font:300 15px Arial}.orbit-cross.a{left:15%;top:15%}.orbit-cross.b{right:13%;top:15%}.orbit-cross.c{left:15%;bottom:14%}.orbit-cross.d{right:13%;bottom:14%}
+.orbit-callout{position:absolute;left:50%;top:35%;pointer-events:none;z-index:2;perspective:450px}
+.orbit-callout-content{visibility:hidden;display:flex;flex-direction:column;font-size:11px;white-space:nowrap;letter-spacing:.11em;line-height:1.9;color:#346d9d;will-change:transform,opacity;transform-origin:left center}
+.orbit-callout-content:before{content:"";position:absolute;top:11px;right:calc(100% + 10px);width:35px;height:1px;background:#729fc6}.orbit-callout-content:after{content:"";position:absolute;top:9px;right:calc(100% + 45px);width:4px;height:4px;border:1px solid #648caf;border-radius:50%}
+.orbit-callout-content b{font-size:13px;font-weight:500;color:#254968;letter-spacing:.02em}.orbit-callout:nth-of-type(2) .orbit-callout-content{transform-origin:right center}
+.orbit-bottom{position:absolute;left:4.4%;right:4.4%;bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;z-index:4}
+.orbit-status{font-size:11px;color:#687d90;letter-spacing:.04em}.orbit-controls{display:flex;align-items:center;gap:18px}
+.orbit-controls button{min-height:44px;font-size:11px;letter-spacing:.03em;padding:0 2px;color:#476a87;border-bottom:1px solid #a9bbc9;transition:color .3s}.orbit-controls button:hover{color:#0a4c83}.orbit-controls button:disabled{opacity:.4;cursor:default}
+.orbit-hero[data-paused=true] .orbit-scan{animation-play-state:paused}.orbit-hero[data-model=fallback] .orbit-scan{display:none}
+@media(min-width:1600px){.orbit-stage{left:32%;right:5%}.orbit-copy{left:9%}}
+@media(max-width:1000px) and (min-width:750px){.orbit-copy{left:5%;width:35%}.orbit-copy h1{font-size:48px}.orbit-stage{left:34%;right:-6%}.orbit-callout-content{font-size:9px}.orbit-callout-content b{font-size:11px}.orbit-bottom{gap:8px}.orbit-controls{gap:12px}}
+@media(max-width:749px){.orbit-hero{height:calc(100svh - 97px);min-height:750px;max-height:1000px}.orbit-topline{top:22px;left:6%;right:6%;font-size:8px;letter-spacing:.15em}.orbit-topline span:last-child{display:none}.orbit-copy{top:64px;left:6%;right:6%;width:auto;transform:none}.orbit-copy .eyebrow{font-size:10px;margin-bottom:12px}.orbit-copy h1{font-size:43px;line-height:1.02;margin-bottom:12px}.orbit-copy h1 br{display:none}.orbit-copy>p:not(.eyebrow){font-size:13px;max-width:280px;line-height:1.6}.orbit-buy{position:absolute;top:535px;left:0;right:0;min-height:46px;margin:0}.orbit-price{position:absolute;top:583px;text-align:center;width:100%;font-size:11px}.orbit-stage{left:0;right:0;top:176px;bottom:140px}.orbit-word{bottom:100px;font-size:35vw;right:6%;color:#bdccd840}.orbit-bottom{left:6%;right:6%;bottom:14px;display:block}.orbit-status{text-align:center;font-size:10px}.orbit-controls{justify-content:center;gap:22px;margin-top:4px}.orbit-controls button{font-size:10px;min-height:36px}.orbit-callout-content{font-size:8px;letter-spacing:.06em}.orbit-callout-content b{font-size:10px}.orbit-callout-content:before{width:16px;right:calc(100% + 7px)}.orbit-callout-content:after{right:calc(100% + 23px)}.orbit-cross.a,.orbit-cross.b{top:6%}.orbit-cross.c,.orbit-cross.d{bottom:5%}.orbit-scan{top:10%}.orbit-fallback{inset:0;height:100%;width:100%}}
+@media(max-width:360px){.orbit-copy h1{font-size:37px}.orbit-controls{gap:13px}}
+@media(prefers-reduced-motion:reduce){.orbit-scan{animation:none;display:none}.orbit-stage canvas,.orbit-fallback,.orbit-buy{transition:none}.orbit-callout{display:none}}
+
+#product-title{font-size:20px;line-height:1.17;font-weight:600;letter-spacing:-.3px}
+@media(max-width:749px){#product-title{font-size:23px;line-height:1.2}}
+@media(min-width:1101px){#product-title{font-size:clamp(23px,1.55vw,28px);line-height:1.2}}
+
+@media(max-width:749px){.orbit-copy h1{font-size:40px}.orbit-copy h1 em{margin-left:.1em}}
+@media(max-width:360px){.orbit-copy h1{font-size:34px}}
+.orbit-callout{left:0;top:0}
