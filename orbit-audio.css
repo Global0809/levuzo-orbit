@@ -1,0 +1,31 @@
+/* A conceptual sound field, drawn live in the storefront's blue palette. */
+.orbit-audio{background:#071321;color:#e8f1fb;padding:76px max(32px,7vw) 32px;scroll-margin-top:76px;margin-bottom:75px}
+.orbit-audio .audio-heading{display:grid;grid-template-columns:1.3fr 1fr;align-items:end;gap:40px;max-width:1400px;margin:0 auto 45px}
+.orbit-audio h2{font-size:clamp(34px,4vw,58px);font-weight:400;letter-spacing:-.035em;line-height:1.08}
+.orbit-audio .audio-heading>p{max-width:410px;font-size:15px;line-height:1.8;color:#adc2d9;justify-self:end}
+.orbit-audio .audio-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(255px,1fr);max-width:1400px;margin:auto;border-top:1px solid #30455c;border-bottom:1px solid #30455c}
+.orbit-audio figure{margin:0;min-width:0}
+.orbit-audio .audio-field{padding:25px 34px 22px 0;min-width:0;border-right:1px solid #30455c}
+.orbit-audio figcaption{font-size:10px;letter-spacing:.15em;line-height:1.6;color:#a5bdd6;display:flex;justify-content:space-between;gap:12px}
+.orbit-audio figcaption span:last-child{color:#68b8ff}
+.orbit-audio .audio-field-canvas{display:block;width:100%;height:auto;aspect-ratio:1.4;min-height:320px;max-height:490px;touch-action:pan-y pinch-zoom}
+.orbit-audio .audio-field-toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;color:#91acc7;font-size:11px;line-height:1.5}
+.orbit-audio button{min-width:44px;min-height:44px;font:inherit;cursor:pointer;touch-action:manipulation}
+.orbit-audio [data-audio-pause]{font-size:11px;color:#c0d9f2;white-space:nowrap;padding:0 2px;border-bottom:1px solid #6686a8;transition:color .2s,border-color .2s}
+.orbit-audio [data-audio-pause]:hover{color:#fff;border-color:#b1daff}
+.orbit-audio button:focus-visible{outline:2px solid #8ccaff;outline-offset:5px}
+.orbit-audio .audio-controls{padding:27px 0 23px 38px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.orbit-audio .audio-mode-label{font-size:11px;line-height:1.6;color:#a5bdd6;margin-bottom:15px}
+.orbit-audio .audio-modes{display:flex;flex-wrap:wrap;gap:8px}
+.orbit-audio [data-audio-mode]{padding:11px 13px;font-size:12px;line-height:1.4;color:#c1d4e7;border:1px solid #43617f;transition:color .2s,background .2s,border-color .2s}
+.orbit-audio [data-audio-mode]:hover{border-color:#a1c7ed;color:#fff}
+.orbit-audio [data-audio-mode][aria-pressed=true]{background:#cde5fb;border-color:#cde5fb;color:#123453}
+.orbit-audio [data-audio-description]{font-size:clamp(22px,2.4vw,33px);line-height:1.3;letter-spacing:-.02em;color:#e4f0fc;margin:29px 0 37px;max-width:390px;min-height:3.9em}
+.orbit-audio .audio-trace{padding-top:22px;border-top:1px solid #30455c}
+.orbit-audio .audio-trace-canvas{display:block;width:100%;height:116px;margin-top:13px;touch-action:pan-y pinch-zoom}
+.orbit-audio .audio-note{max-width:1400px;margin:22px auto 0;font-size:11px;line-height:1.65;color:#a5bdd6}
+.orbit-audio ::selection{background:#bedfff;color:#123453}
+@media(max-width:1000px){.orbit-audio{padding:60px 35px 27px}.orbit-audio .audio-heading{gap:30px;margin-bottom:32px}.orbit-audio .audio-layout{grid-template-columns:minmax(0,1.3fr) minmax(240px,1fr)}.orbit-audio .audio-field{padding-right:23px}.orbit-audio .audio-controls{padding-left:25px}.orbit-audio [data-audio-description]{font-size:26px}.orbit-audio [data-audio-mode]{font-size:11px;padding:10px}}
+@media(max-width:749px){.orbit-audio{padding:48px 24px 27px;scroll-margin-top:60px;margin-bottom:58px}.orbit-audio .audio-heading{grid-template-columns:1fr;gap:20px;margin-bottom:29px}.orbit-audio h2{font-size:35px}.orbit-audio .audio-heading>p{font-size:14px;line-height:1.75;justify-self:start;max-width:440px}.orbit-audio .audio-layout{grid-template-columns:minmax(0,1fr)}.orbit-audio .audio-field{padding:21px 0 19px;border-right:0}.orbit-audio .audio-field-canvas{aspect-ratio:1.4;min-height:320px;max-height:430px}.orbit-audio .audio-field-toolbar{font-size:10px}.orbit-audio .audio-controls{padding:27px 0 24px;border-top:1px solid #30455c}.orbit-audio .audio-mode-label{margin-bottom:13px}.orbit-audio .audio-modes{gap:7px}.orbit-audio [data-audio-mode]{font-size:12px;padding:11px 13px}.orbit-audio [data-audio-description]{font-size:27px;max-width:430px;min-height:2.6em;margin:25px 0 27px}.orbit-audio .audio-trace{padding-top:20px}.orbit-audio .audio-trace-canvas{height:102px}.orbit-audio .audio-note{font-size:11px;margin-top:20px}}
+@media(max-width:359px){.orbit-audio{padding-left:20px;padding-right:20px}.orbit-audio h2{font-size:31px}.orbit-audio .audio-modes{gap:6px}.orbit-audio [data-audio-mode]{padding:10px 9px;font-size:11px}.orbit-audio figcaption{font-size:9px;letter-spacing:.11em}.orbit-audio [data-audio-description]{font-size:25px}}
+@media(prefers-reduced-motion:reduce){.orbit-audio button{transition:none}}
