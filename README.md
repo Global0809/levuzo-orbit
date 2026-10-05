@@ -20,10 +20,10 @@ The local preview runs at http://127.0.0.1:5182. Publish the contents of `dist/`
 - Twelve actual top slots and underside LEDs use an opposing-beacon blue chase. The stand stays brightly illuminated.
 - Lightweight expanding 3D rings visualize sound around the saucer. They are artistic graphics, not acoustic measurement data.
 - One shared 1.48 MB GLB download, lazy scene initialization, offscreen/background suspension, adaptive pixel density, no bloom or shadow postprocessing.
-- Horizontal touch intent activates rotation; vertical gestures scroll the page. Camera motion pauses during dragging. Controls have 44 px phone targets.
+- Drag in any direction inside a model to rotate it immediately. Each view has a Touch: Rotate / Touch: Scroll switch; scrolling also works outside the canvas, and native pinch zoom is retained. Camera motion pauses during dragging, holds the chosen angle for 1.8 seconds, then eases back. Controls have 44 px phone targets.
 - Reduced-motion preference starts all scenes paused. Each scene provides pause, replay and light controls, keyboard navigation and a WebGL error state.
 
-`src/orbit-hero.js` owns scene lifecycle, cameras and effects. `src/orbit-slot-lights.js` isolates the model's top-slot material groups. `scripts/theme-baseline.json` protects the original theme styles. Run the static checks after changes.
+`src/orbit-hero.js` owns scene lifecycle and effects. `src/orbit-input.js` handles pointer gestures; `src/orbit-camera-paths.js` authors the close-ups, crane passes, overhead spirals and wide returns. `src/orbit-slot-lights.js` isolates the model's top-slot material groups. `scripts/theme-baseline.json` protects the original theme styles. Run the input regression and static checks after changes.
 
 ## Ordering status
 

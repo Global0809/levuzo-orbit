@@ -13,6 +13,8 @@ assert.ok(!/juken|blue planet|only 23|countdown/i.test(html),'No old-brand or fa
 assert.equal((html.match(/<h1[\s>]/g)||[]).length,1);
 assert.ok(!/<(?:img|picture)\b/i.test(html),'Product presentation must use live 3D only');
 assert.equal((html.match(/data-orbit-scene=/g)||[]).length,4,'Four live product scenes');
+assert.equal((html.match(/data-orbit-touch\b/g)||[]).length,4,'Each live model needs a phone gesture switch');
+for(const match of html.matchAll(/aria-controls="([^"]+)"/g))assert.ok(ids.includes(match[1]),`Missing controlled element ${match[1]}`);
 assert.ok(!/id="(?:orbit-field|movement)"|href="#(?:orbit-field|movement)"/.test(html),'Removed third scene has no dead links');
 for(const filename of ['app.js','checkout.js','motion.js']){
   assert.ok(!/<img\b|media\/[^'"`]+\.(?:png|jpg|webp)/i.test(await readFile(`dist/${filename}`,'utf8')),`No dynamic photos in ${filename}`);

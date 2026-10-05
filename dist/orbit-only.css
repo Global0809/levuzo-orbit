@@ -151,3 +151,16 @@
 }
 @media(max-width:359px){.product{padding-left:14px;padding-right:14px}.product-stage.orbit-product{height:485px;min-height:485px}.orbit-product .orbit-scene-heading span{display:none}.orbit-product .orbit-scene-controls{gap:11px}.orbit-product .orbit-scene-controls button{font-size:9px}.orbit-product-views button{font-size:10px;padding:10px 11px}.orbit-statement h2{font-size:30px}.orbit-ambience-copy h3{font-size:30px}.orbit-ambience .orbit-scene-controls{gap:17px}.orbit-specifications .spec-card p{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.orbit-ambience,.orbit-ambience:before,.orbit-ambience-copy .eyebrow,.orbit-ambience-copy>p:not(.eyebrow),.orbit-ambience-ring,.orbit-product-views button,.orbit-specifications .spec-card{transition:none}}
+
+/* Touch gestures stay explicit while native two-finger zoom remains available. */
+.orbit-touch-toggle{display:none;position:absolute;top:8px;right:12px;z-index:5;min-width:44px;min-height:44px;padding:8px 12px;border:1px solid #a9bdcf;background:#f4f8fc;color:#214b6e;font-size:11px;line-height:1.2;letter-spacing:.015em;white-space:nowrap;pointer-events:auto;touch-action:manipulation}
+.orbit-touch-toggle:focus-visible{outline:2px solid #2b89db;outline-offset:3px}
+.orbit-touch-toggle[aria-pressed=false]{background:#173653;border-color:#173653;color:#fff}
+.orbit-nocturne .orbit-touch-toggle,.orbit-ambience[data-lighting=night] .orbit-touch-toggle{background:#11243b;border-color:#52789c;color:#dceaf8}
+.orbit-nocturne .orbit-touch-toggle[aria-pressed=false],.orbit-ambience[data-lighting=night] .orbit-touch-toggle[aria-pressed=false]{background:#dceaf8;border-color:#dceaf8;color:#15304c}
+[data-orbit-scene][data-touch-mode=rotate] .orbit-stage canvas{touch-action:pinch-zoom}
+[data-orbit-scene][data-touch-mode=scroll] .orbit-stage canvas{touch-action:pan-y pinch-zoom}
+.orbit-stage>[aria-hidden=true]{pointer-events:none}
+@media(max-width:749px),(any-pointer:coarse){.orbit-touch-toggle{display:block}}
+@media(max-width:749px){.orbit-nocturne .orbit-touch-toggle{right:calc(4% + 12px)}}
+@media(max-width:359px){.orbit-touch-toggle{right:10px;padding:8px 10px;font-size:10px}}
