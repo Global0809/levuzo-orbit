@@ -25,6 +25,10 @@ The local preview runs at http://127.0.0.1:5182. Publish the contents of `dist/`
 
 `src/orbit-hero.js` owns scene lifecycle and effects. `src/orbit-input.js` handles pointer gestures; `src/orbit-camera-paths.js` authors the close-ups, crane passes, overhead spirals and wide returns. `src/orbit-slot-lights.js` isolates the model's top-slot material groups. `scripts/theme-baseline.json` protects the original theme styles. Run the input regression and static checks after changes.
 
+## Audio field
+
+The `#sound-field` section uses a lightweight Canvas 2D wire field, polar wavefronts and signal trace. Full spectrum, Low end and High detail change the artistic illustration; no acoustic measurements, recorded audio or microphone input are used. A visible caption identifies the graphic as illustrative. `dist/orbit-audio.js` runs at up to 30fps with capped pixel density, pauses offscreen/in background, supports reduced motion and provides a pause control. Phone scrolling remains native across the graph. Its styles live in `dist/orbit-audio.css`.
+
 ## Ordering status
 
 Checkout remains disabled until a verified merchant-hosted payment link and actual shipping/return terms are supplied. The site does not accept orders, charge cards, collect addresses or store card information. The displayed prices are $249 launch / $999 standard. No fake stock counter is used.

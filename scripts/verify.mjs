@@ -14,7 +14,7 @@ assert.equal((html.match(/<h1[\s>]/g)||[]).length,1);
 assert.ok(!/<(?:img|picture)\b/i.test(html),'Product presentation must use live 3D only');
 assert.equal((html.match(/data-orbit-scene=/g)||[]).length,4,'Four live product scenes');
 assert.equal((html.match(/data-orbit-touch\b/g)||[]).length,4,'Each live model needs a phone gesture switch');
-for(const match of html.matchAll(/aria-controls="([^"]+)"/g))assert.ok(ids.includes(match[1]),`Missing controlled element ${match[1]}`);
+for(const match of html.matchAll(/aria-controls="([^"]+)"/g))for(const id of match[1].trim().split(/\s+/))assert.ok(ids.includes(id),`Missing controlled element ${id}`);
 assert.ok(!/id="(?:orbit-field|movement)"|href="#(?:orbit-field|movement)"/.test(html),'Removed third scene has no dead links');
 for(const filename of ['app.js','checkout.js','motion.js']){
   assert.ok(!/<img\b|media\/[^'"`]+\.(?:png|jpg|webp)/i.test(await readFile(`dist/${filename}`,'utf8')),`No dynamic photos in ${filename}`);
@@ -26,6 +26,7 @@ const config=sandbox.window.LevuzoCheckoutConfig;
 assert.equal(config.enabled,false,'Checkout must remain disabled until a real merchant link is supplied');
 assert.deepEqual(Object.keys(config.links),[]);
 const app=await readFile('dist/app.js','utf8');
+new vm.Script(await readFile('dist/orbit-audio.js','utf8'),{filename:'orbit-audio.js'});
 assert.ok(app.includes('price:249,standard:999'));
 assert.ok(app.includes("['Aluminum'].includes(item.material)&&['Blue light'].includes(item.size)"));
 const themeBaseline=JSON.parse(await readFile('scripts/theme-baseline.json','utf8'));
