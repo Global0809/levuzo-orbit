@@ -22,6 +22,9 @@ The local preview runs at http://127.0.0.1:5182. Publish the contents of `dist/`
 - One shared 1.48 MB GLB download, lazy scene initialization, offscreen/background suspension, adaptive pixel density, no bloom or shadow postprocessing.
 - Drag in any direction inside a model to rotate it immediately. Each view has a Touch: Rotate / Touch: Scroll switch; scrolling also works outside the canvas, and native pinch zoom is retained. Camera motion pauses during dragging, holds the chosen angle for 1.8 seconds, then eases back. Controls have 44 px phone targets.
 - Reduced-motion preference starts all scenes paused. Each scene provides pause, replay and light controls, keyboard navigation and a WebGL error state.
+- Phone and coarse-pointer devices keep a maximum 1.5 rendering pixel ratio in portrait and landscape. Adaptive quality reductions survive orientation changes.
+- Temporary WebGL context loss suspends the scene, then restores the model, its reflection environment and the chosen pause state when the browser restores graphics.
+- `dist/orbit-mobile.css` provides 44px touch targets, safe-area spacing, landscape navigation and viewport-bounded search without changing the original theme stylesheets.
 
 `src/orbit-hero.js` owns scene lifecycle and effects. `src/orbit-input.js` handles pointer gestures; `src/orbit-camera-paths.js` authors the close-ups, crane passes, overhead spirals and wide returns. `src/orbit-slot-lights.js` isolates the model's top-slot material groups. `scripts/theme-baseline.json` protects the original theme styles. Run the input regression and static checks after changes.
 

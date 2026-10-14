@@ -10,7 +10,6 @@ import {createOrbitCameraPath} from './orbit-camera-paths.js';
 let modelPromise;
 function loadModel(){return modelPromise??=new GLTFLoader().loadAsync('models/orbit.glb');}
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-const mobile=matchMedia('(max-width: 749px)');
 const touchLayout=matchMedia('(max-width: 749px), (any-pointer: coarse)');
 const levitationLift=.015; // The supplied GLB uses meters: raise the UFO by 1.5 cm.
 // Keep the clockwise saucer clearly independent of every camera orbit.
@@ -31,7 +30,7 @@ const touchButton=hero.querySelector('[data-orbit-touch]');
 const lifecycle=new AbortController();
 const options={signal:lifecycle.signal};
 let renderer,environment,root,saucer,scan,glow,key,fill,resizeObserver,visibilityObserver,loadObserver;
-let frame=0,last=0,time=0,visible=false,disposed=false,loaded=false,started=false,paused=reduced.matches,lights=true,drag=null;
+let frame=0,restoreTask=0,last=0,time=0,visible=false,disposed=false,loaded=false,started=false,failed=false,contextLost=false,paused=reduced.matches,lights=true,drag=null;
 let touchMode='rotate',holdUntil=0,returnToCinema=false;
 let width=1,height=1,dpr=1,performanceFrames=0,slowFrames=0;
 let choreography,annotations,intro,productView='full';
@@ -64,6 +63,10 @@ function beacon(phase){
 
 function announce(message){status.textContent=message;}
 function touchHint(){if(loaded)announce(touchLayout.matches?(touchMode==='rotate'?'Drag in any direction · scroll outside the model':'Swipe to scroll · tap Touch: Scroll to rotate'):'Drag in any direction · scroll to discover');}
+function showReady(){
+  hero.dataset.model='ready';hero.setAttribute('aria-busy','false');
+  pauseButton.disabled=false;replayButton.disabled=false;lightButton.disabled=false;touchHint();
+}
 function setTouchMode(value){
   input.cancel();touchMode=value;hero.dataset.touchMode=value;
   touchButton?.setAttribute('aria-pressed',String(value==='rotate'));
@@ -100,20 +103,20 @@ function setCamera(){
   // A tighter desktop pass stays wide enough when the viewport narrows mid-orbit.
   const macroBlend=THREE.MathUtils.smoothstep(rig.targetY,.21,.31);
   const minRadius=(isNight||(isProduct&&productView==='detail'))?.4:THREE.MathUtils.lerp(.64,.4,macroBlend);
-  const radius=Math.max(rig.radius,mobile.matches?minRadius:0)*(mobile.matches?.96:1);
+  const radius=Math.max(rig.radius,touchLayout.matches?minRadius:0)*(touchLayout.matches?.96:1);
   const a=rig.azimuth+offset.x,e=THREE.MathUtils.clamp(rig.elevation+offset.y,-.18,1.43);
   target.set(rig.targetX,rig.targetY,0);
   camera.position.set(Math.sin(a)*Math.cos(e)*radius,rig.targetY+Math.sin(e)*radius,Math.cos(a)*Math.cos(e)*radius);
   camera.lookAt(target);camera.rotateZ(rig.roll);camera.updateMatrixWorld();
 }
-function renderOnce(){if(disposed||!renderer||document.hidden||!visible)return;update(0);renderer.render(scene,camera);}
-function syncCamera(active=loaded&&visible&&!document.hidden&&!paused&&!disposed){
+function renderOnce(){if(disposed||failed||contextLost||!renderer||document.hidden||!visible)return;update(0);renderer.render(scene,camera);}
+function syncCamera(active=loaded&&visible&&!document.hidden&&!paused&&!disposed&&!contextLost){
   const running=active&&!drag&&time>=holdUntil;
   if(intro)running?intro.resume():intro.pause();
   if(choreography)running&&!intro?choreography.resume():choreography.pause();
 }
 function sync(){
-  const active=loaded&&visible&&!document.hidden&&!paused&&!disposed;
+  const active=loaded&&visible&&!document.hidden&&!paused&&!disposed&&!contextLost;
   hero.dataset.active=String(active);
   if(annotations)active?annotations.resume():annotations.pause();
   syncCamera(active);
@@ -169,7 +172,7 @@ function update(dt){
   }
 }
 function tick(now){
-  frame=0;if(disposed||paused||!visible||document.hidden)return;
+  frame=0;if(disposed||contextLost||paused||!visible||document.hidden)return;
   const raw=last?(now-last)/1000:0;last=now;
   update(Math.min(raw,.05));renderer.render(scene,camera);
   if(++performanceFrames<180&&raw>.035)slowFrames++;
@@ -177,7 +180,10 @@ function tick(now){
   frame=requestAnimationFrame(tick);
 }
 function resize(){
-  if(!renderer)return;
+  if(!renderer||disposed||contextLost)return;
+  // Landscape phones keep the touch-device budget. Never undo a slow-frame downgrade.
+  const nextDpr=Math.min(dpr,devicePixelRatio,touchLayout.matches?1.5:1.75);
+  if(nextDpr!==dpr){dpr=nextDpr;renderer.setPixelRatio(dpr);}
   const bounds=stage.getBoundingClientRect();width=bounds.width;height=bounds.height;
   renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();renderOnce();
 }
@@ -185,6 +191,15 @@ function texture(colors){
   const c=document.createElement('canvas');c.width=c.height=128;const ctx=c.getContext('2d');
   const g=ctx.createRadialGradient(64,64,0,64,64,64);colors.forEach(([at,color])=>g.addColorStop(at,color));
   ctx.fillStyle=g;ctx.fillRect(0,0,128,128);const t=new THREE.CanvasTexture(c);resources.add(t);return t;
+}
+function rebuildEnvironment(){
+  // A render target has no CPU pixel source to re-upload after GPU context loss.
+  // Re-render the procedural room while retaining the selected lighting intensity.
+  const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();
+  try{
+    const next=pmrem.fromScene(room,.04),previous=environment;
+    environment=next;scene.environment=next.texture;previous?.dispose();
+  }finally{room.dispose();pmrem.dispose();}
 }
 function ring(radius,y,opacity){
   const points=Array.from({length:129},(_,i)=>new THREE.Vector3(Math.cos(i/128*Math.PI*2)*radius,y,Math.sin(i/128*Math.PI*2)*radius));
@@ -196,7 +211,7 @@ function animate(){
   Object.assign(rig,rest);
   const elements=annotationNodes.map(n=>n.firstElementChild);
   if(reduced.matches){if(elements.length)gsap.set(elements,{autoAlpha:0});return;}
-  ({choreography,intro}=createOrbitCameraPath({rig,rest,mode,productView,compact:mobile.matches,onIntroComplete:()=>{intro=null;sync();}}));
+  ({choreography,intro}=createOrbitCameraPath({rig,rest,mode,productView,compact:touchLayout.matches,onIntroComplete:()=>{intro=null;sync();}}));
   if(elements.length)gsap.set(elements,{autoAlpha:0});
   annotations=elements.length?gsap.timeline({repeat:-1,delay:2.1,paused:true}):null;
   elements.forEach((el,i)=>{
@@ -205,17 +220,15 @@ function animate(){
       .to(el,{autoAlpha:0,x:i===1?14:-14,y:-20,duration:1.05,ease:'power2.in'},start+3.5);
   });
 }
-function fail(message){loaded=false;hero.dataset.model='fallback';hero.setAttribute('aria-busy','false');const loading=hero.querySelector('.orbit-loading');if(loading)loading.textContent='3D view unavailable';announce(message);pauseButton.disabled=true;replayButton.disabled=true;lightButton.disabled=true;sync();}
+function fail(message){failed=true;loaded=false;hero.dataset.model='fallback';hero.setAttribute('aria-busy','false');const loading=hero.querySelector('.orbit-loading');if(loading)loading.textContent='3D view unavailable';announce(message);pauseButton.disabled=true;replayButton.disabled=true;lightButton.disabled=true;sync();}
 function initialize(){
 if(started||disposed)return;started=true;
 try{
-  renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:!mobile.matches,powerPreference:'low-power'});
-  dpr=Math.min(devicePixelRatio,mobile.matches?1.5:1.75);renderer.setPixelRatio(dpr);
+  renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:!touchLayout.matches,powerPreference:'low-power'});
+  dpr=Math.min(devicePixelRatio,touchLayout.matches?1.5:1.75);renderer.setPixelRatio(dpr);
   renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=isNight?.72:.92;
   renderer.setClearColor(0xf0f2f4,0);
-  const pmrem=new THREE.PMREMGenerator(renderer),room=new RoomEnvironment();
-  environment=pmrem.fromScene(room,.04);scene.environment=environment.texture;scene.environmentIntensity=isNight?.62:1.05;
-  room.dispose();pmrem.dispose();
+  rebuildEnvironment();scene.environmentIntensity=isNight?.62:1.05;
   key=new THREE.DirectionalLight(0xffffff,isNight?1.7:2.5);key.position.set(-.4,.6,.7);scene.add(key);
   fill=new THREE.DirectionalLight(isNight?0x348fff:0xb4d5ff,isNight?2.2:.9);fill.position.set(.5,.35,-.5);scene.add(fill);
   scene.add(new THREE.HemisphereLight(0xffffff,0x637995,.45));
@@ -236,7 +249,7 @@ try{
   // Shared wire geometry depicts sound expanding evenly around the speaker.
   // Presentation graphics, not an acoustic measurement or added model detail.
   if(isHero||isNight||isAmbience){
-    const positions=[],segments=mobile.matches?48:72;
+    const positions=[],segments=touchLayout.matches?48:72;
     for(const height of [-.016,0,.016])for(let i=0;i<segments;i++)for(const step of [i,i+1]){
       const angle=step/segments*Math.PI*2,radius=height===0?.104:.096;
       positions.push(Math.cos(angle)*radius,height,Math.sin(angle)*radius);
@@ -282,8 +295,8 @@ try{
         if(parent===saucer){const material=new THREE.MeshStandardMaterial({color:0x087bff,emissive:0x007aff,emissiveIntensity:1,toneMapped:false});const point=new THREE.Mesh(pointGeometry,material);point.position.copy(sprite.position);parent.add(point);leds.push({material,phase});}
       }
     }
-    scene.add(root);loaded=true;hero.dataset.model='ready';hero.setAttribute('aria-busy','false');pauseButton.disabled=false;replayButton.disabled=false;lightButton.disabled=false;
-    touchHint();animate();setPause(reduced.matches);if(isAmbience)setAmbience(hero.dataset.lighting||'day');renderOnce();
+    scene.add(root);loaded=true;if(!contextLost)showReady();
+    animate();setPause(reduced.matches);if(isAmbience)setAmbience(hero.dataset.lighting||'day');renderOnce();
   }).catch(()=>fail('The 3D model could not load. Reload the page to try again.'));
 }catch{fail('Live 3D requires WebGL. Try another browser to explore the model.');}
 }
@@ -294,7 +307,7 @@ replayButton.addEventListener('click',()=>{input.cancel();holdUntil=0;returnToCi
 hero.querySelectorAll('[data-orbit-view]').forEach(button=>button.addEventListener('click',()=>setProductView(button.dataset.orbitView),options));
 hero.querySelectorAll('[data-light]').forEach(button=>button.addEventListener('click',()=>setAmbience(button.dataset.light),options));
 const input=bindOrbitInput({
-  canvas,signal:lifecycle.signal,enabled:()=>loaded&&touchMode==='rotate',
+  canvas,signal:lifecycle.signal,enabled:()=>loaded&&!contextLost&&touchMode==='rotate',
   onBegin(){
     drag={startX:offset.x,startY:offset.y};holdUntil=0;returnToCinema=false;
     pointer.x=offset.x;pointer.y=offset.y;hero.dataset.interacting='true';sync();
@@ -314,26 +327,56 @@ const input=bindOrbitInput({
 });
 hero.dataset.touchMode=touchMode;
 touchButton?.addEventListener('click',()=>setTouchMode(touchMode==='rotate'?'scroll':'rotate'),options);
-touchLayout.addEventListener('change',()=>{if(!touchLayout.matches)setTouchMode('rotate');else touchHint();},options);
+touchLayout.addEventListener('change',()=>{if(!touchLayout.matches)setTouchMode('rotate');else touchHint();resize();},options);
 canvas.addEventListener('keydown',e=>{
+  if(!loaded||contextLost||failed||disposed)return;
   if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home',' '].includes(e.key))return;
   e.preventDefault();if(e.key===' '){setPause(!paused);return;}if(e.key==='Home'){replayButton.click();return;}
   pointer.x+=(e.key==='ArrowLeft'?.15:e.key==='ArrowRight'?-.15:0);
   pointer.y=THREE.MathUtils.clamp(pointer.y+(e.key==='ArrowUp'?.1:e.key==='ArrowDown'?-.1:0),-.18-rig.elevation,1.43-rig.elevation);
   holdUntil=time+1.8;returnToCinema=false;offset.x=pointer.x;offset.y=pointer.y;lastTelemetry=-1;sync();renderOnce();
 },options);
-canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();setPause(true);fail('The 3D view paused. Reload the page to restore it.');},options);
+canvas.addEventListener('webglcontextlost',e=>{
+  e.preventDefault();if(disposed||failed)return;
+  clearTimeout(restoreTask);restoreTask=0;
+  contextLost=true;input.cancel();
+  hero.dataset.model='recovering';hero.setAttribute('aria-busy','true');
+  const loading=hero.querySelector('.orbit-loading');if(loading)loading.textContent='Restoring your 3D view…';
+  announce('The 3D view is restoring. You can continue exploring the page.');
+  pauseButton.disabled=true;replayButton.disabled=true;lightButton.disabled=true;sync();
+},options);
+canvas.addEventListener('webglcontextrestored',()=>{
+  // Three's renderer installs its restoration listener during lazy initialization.
+  // A native event can flush microtasks between listeners: use the next task so
+  // Three has rebuilt GPU state before we render the procedural environment.
+  clearTimeout(restoreTask);
+  restoreTask=setTimeout(()=>{
+    restoreTask=0;
+    if(disposed||!contextLost)return;
+    if(failed){contextLost=false;return;}
+    if(renderer.getContext().isContextLost())return;
+    try{rebuildEnvironment();}
+    catch{contextLost=false;fail('The 3D view could not recover. Reload the page to try again.');return;}
+    contextLost=false;
+    if(loaded)showReady();
+    else{
+      hero.dataset.model='loading';
+      const loading=hero.querySelector('.orbit-loading');if(loading)loading.textContent='Preparing your 3D view…';
+      announce('Preparing your 3D view…');
+    }
+    resize();sync();
+  },0);
+},options);
 visibilityObserver=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();},{threshold:0});visibilityObserver.observe(stage);
 loadObserver=new IntersectionObserver(([entry])=>{if(entry.isIntersecting){initialize();loadObserver.disconnect();}},{rootMargin:'240px'});loadObserver.observe(stage);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)input.cancel();sync();},options);
 window.addEventListener('blur',()=>input.cancel(),options);
 reduced.addEventListener('change',()=>{animate();setPause(reduced.matches);},options);
-mobile.addEventListener('change',resize,options);
 window.addEventListener('pageshow',sync,options);
 window.addEventListener('pagehide',event=>{
   cancelAnimationFrame(frame);frame=0;for(const t of [choreography,annotations,intro])t?.pause();
   if(event.persisted)return;
-  disposed=true;lifecycle.abort();resizeObserver?.disconnect();visibilityObserver?.disconnect();loadObserver?.disconnect();
+  disposed=true;clearTimeout(restoreTask);restoreTask=0;lifecycle.abort();resizeObserver?.disconnect();visibilityObserver?.disconnect();loadObserver?.disconnect();
   for(const t of [choreography,annotations,intro])t?.kill();
   scene.traverse(object=>{object.geometry?.dispose();if(object.material){for(const material of Array.isArray(object.material)?object.material:[object.material])material.dispose();}});
   resources.forEach(resource=>resource.dispose());environment?.dispose();renderer?.dispose();
