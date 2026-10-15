@@ -1,4 +1,4 @@
-# Levuzo Orbit
+# Ufolyro
 
 A responsive, live-3D product storefront for a levitating aluminum Bluetooth speaker. Four views use the supplied model: cinematic hero, product explorer, blue-hour close-up, and day/night atmosphere. No product photographs are rendered.
 
@@ -34,7 +34,7 @@ The `#sound-field` section uses a lightweight Canvas 2D wire field, polar wavefr
 
 ## Ordering status
 
-Checkout remains disabled until a verified merchant-hosted payment link and actual shipping/return terms are supplied. The site does not accept orders, charge cards, collect addresses or store card information. The displayed prices are $249 launch / $999 standard. No fake stock counter is used.
+Checkout remains disabled until a verified merchant-hosted payment link and actual shipping/return terms are supplied. The site does not accept orders, charge cards, collect addresses or store card information. The displayed prices are $349 launch / $999 standard. No fake stock counter is used.
 
 ## Assets and dependencies
 

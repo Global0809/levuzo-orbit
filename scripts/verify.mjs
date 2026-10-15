@@ -27,10 +27,10 @@ assert.equal(config.enabled,false,'Checkout must remain disabled until a real me
 assert.deepEqual(Object.keys(config.links),[]);
 const app=await readFile('dist/app.js','utf8');
 new vm.Script(await readFile('dist/orbit-audio.js','utf8'),{filename:'orbit-audio.js'});
-assert.ok(app.includes('price:249,standard:999'));
+assert.ok(app.includes('price:349,standard:999'));
 assert.ok(app.includes("['Aluminum'].includes(item.material)&&['Blue light'].includes(item.size)"));
 const themeBaseline=JSON.parse(await readFile('scripts/theme-baseline.json','utf8'));
 for(const [file,hash] of Object.entries(themeBaseline)){
   assert.equal(createHash('sha256').update(await readFile(`dist/${file}`)).digest('hex'),hash,`${file} must preserve the original theme exactly`);
 }
-console.log(`Verified ${assets.size} local resources, anchors, four 3D scenes, $249/$999 pricing, disabled checkout and five unchanged theme stylesheets.`);
+console.log(`Verified ${assets.size} local resources, anchors, four 3D scenes, $349/$999 pricing, disabled checkout and five unchanged theme stylesheets.`);
